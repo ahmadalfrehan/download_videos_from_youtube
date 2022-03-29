@@ -10,14 +10,13 @@ class BrowserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => DownCubit()..launchURL(DownCubit.get(context).url),
+      create: (BuildContext context) =>
+          DownCubit()..launchURL(DownCubit.get(context).url),
       child: BlocConsumer<DownCubit, DownState>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            body: Container(
-
-            ),
+            body: Container(),
           );
         },
       ),

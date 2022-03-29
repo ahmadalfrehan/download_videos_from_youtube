@@ -67,14 +67,6 @@ class DownloadScreen extends StatelessWidget {
                                 if (farKey.currentState!.validate()) {
                                   print(urlController.text);
                                   String hh = DownCubit.get(context).ifenvski();
-                                  Workmanager().registerOneOffTask(
-                                      hh, 'Ahmad Al_Frehan');
-                                  Workmanager()
-                                      .executeTask((taskName, inputData) {
-                                    DownCubit.get(context).downloadVideo(
-                                        urlController.text.toString());
-                                    return Future.value(true);
-                                  });
                                   DownCubit.get(context).downloadVideo(
                                       urlController.text.toString());
                                 }

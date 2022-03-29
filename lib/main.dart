@@ -4,24 +4,19 @@ import 'package:difference/Cubit/States.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_youtube_downloader/flutter_youtube_downloader.dart';
 import 'package:workmanager/workmanager.dart';
 
-const debug = true;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterDownloader.initialize(debug: debug);
-  Workmanager().initialize(callbackDispatcher,isInDebugMode: true);
-  //Workmanager().registerOneOffTask('1', 'simple');
-  //Workmanager().registerOneOffTask('2', 'simple2');
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
   runApp(const MyApp());
 }
 
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {
-    FlutterYoutubeDownloader.downloadVideo('https://youtu.be/KUS2y2RjMYI', 'A.', 18);
+    FlutterYoutubeDownloader.downloadVideo(
+        'https://youtu.be/rMz9bgAIBwg', 'A.', 18);
 
     return Future.value(true);
   });
@@ -37,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home:MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -59,8 +54,7 @@ class MyHomePage extends StatelessWidget {
                     .toString(),
               ),
             ),
-            body:
-            DownCubit.get(context)
+            body: DownCubit.get(context)
                 .screens[DownCubit.get(context).currentIndex],
             bottomNavigationBar: CurvedNavigationBar(
               items: const [
