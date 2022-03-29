@@ -1,0 +1,74 @@
+import 'dart:math';
+import 'package:difference/Cubit/States.dart';
+import 'package:difference/FirstAndSecond/BrowserScreen.dart';
+import 'package:difference/FirstAndSecond/DownloadScreen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_youtube_downloader/flutter_youtube_downloader.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class DownCubit extends Cubit<DownState> {
+  DownCubit() : super(initialState());
+
+  static DownCubit get(context) => BlocProvider.of(context);
+
+  List<String> titles = [
+    'download',
+    'youtube',
+  ];
+  List screens = [
+    DownloadScreen(),
+    const BrowserScreen(),
+  ];
+  int currentIndex = 0;
+
+  void ChangeBottomNavigation(int index) {
+    currentIndex = index;
+    emit(ChangeBottomNav());
+  }
+
+  String? h;
+
+  ifenvski() {
+    emit(SucessDownState());
+    String r = generateRandomString(26);
+    h = "$r.";
+    return h;
+  }
+
+  Future<void> downloadVideo(String s) async {
+    emit(SucessDownState());
+    String r = generateRandomString(26);
+    print(r);
+    final result = await FlutterYoutubeDownloader.downloadVideo(s, "$r.", 18);
+    print(result);
+    h = result;
+  }
+
+  String generateRandomString(int len) {
+    var r = Random();
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+
+  String url = 'https://www.youtube.com';
+
+  void launchURL(String url) async {
+    emit(SucessLaunchState());
+
+    if (!await launch(
+      url,
+      enableJavaScript: true,
+      forceWebView: true,
+      forceSafariVC: false,
+    )) throw 'Could not launch $url';
+  }
+
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+  }
+}
