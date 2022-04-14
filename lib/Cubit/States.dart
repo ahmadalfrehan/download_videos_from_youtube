@@ -7,3 +7,4 @@ class initialState extends DownState {}
 class ChangeBottomNav extends DownState {}
 
 class SucessLaunchState extends DownState {}
+class SuccessChangeState extends DownState {}

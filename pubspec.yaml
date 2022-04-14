@@ -43,6 +43,7 @@ dependencies:
   workmanager: ^0.4.1
   permission_handler: ^9.2.0
   path_provider: ^2.0.9
+  webview_flutter: ^3.0.2
 
 
 dev_dependencies:
@@ -52,7 +53,7 @@ dev_dependencies:
 
 flutter_icons:
   android: true
-  image_path: "build/assets/D.jpg"
+  image_path: "build/assets/youtube-icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

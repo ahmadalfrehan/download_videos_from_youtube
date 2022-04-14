@@ -7,9 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_youtube_downloader/flutter_youtube_downloader.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'FirstAndSecond/GetSharedData.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+
   runApp(const MyApp());
 }
 
@@ -60,6 +63,7 @@ class MyHomePage extends StatelessWidget {
               items: const [
                 Icon(Icons.download),
                 Icon(Icons.ondemand_video_outlined),
+                Icon(Icons.ondemand_video),
               ],
               backgroundColor: Colors.red,
               index: DownCubit.get(context).currentIndex,

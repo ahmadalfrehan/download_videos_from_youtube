@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:difference/Cubit/States.dart';
 import 'package:difference/FirstAndSecond/BrowserScreen.dart';
@@ -5,6 +6,10 @@ import 'package:difference/FirstAndSecond/DownloadScreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_youtube_downloader/flutter_youtube_downloader.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../FirstAndSecond/GetSharedData.dart';
+import '../FirstAndSecond/Third.dart';
 
 class DownCubit extends Cubit<DownState> {
   DownCubit() : super(initialState());
@@ -13,12 +18,15 @@ class DownCubit extends Cubit<DownState> {
 
   List<String> titles = [
     'download',
+    'YouTubeDownloader',
     'youtube',
   ];
   List screens = [
     DownloadScreen(),
+    Third(),
     const BrowserScreen(),
   ];
+
   int currentIndex = 0;
 
   void ChangeBottomNavigation(int index) {
@@ -26,13 +34,15 @@ class DownCubit extends Cubit<DownState> {
     emit(ChangeBottomNav());
   }
 
-  String? h;
-
-  ifenvski() {
-    emit(SucessDownState());
-    String r = generateRandomString(26);
-    h = "$r.";
-    return h;
+  GetLinkByShare() {
+    String x ='';
+    Dataclass().ShareData().then(
+      (value) {
+        x = value;
+        print(x);
+      },
+    );
+    return x;
   }
 
   Future<void> downloadVideo(String s) async {
@@ -41,7 +51,13 @@ class DownCubit extends Cubit<DownState> {
     print(r);
     final result = await FlutterYoutubeDownloader.downloadVideo(s, "$r.", 18);
     print(result);
-    h = result;
+  }
+
+  Future<void> downloadVideoDirectly(String iUrl, String title) async {
+    emit(SucessDownState());
+    final result =
+        await FlutterYoutubeDownloader.downloadVideo(iUrl, "$title.", 18);
+    print(result);
   }
 
   String generateRandomString(int len) {
@@ -56,12 +72,8 @@ class DownCubit extends Cubit<DownState> {
 
   void launchURL(String url) async {
     emit(SucessLaunchState());
-
     if (!await launch(
       url,
-      enableJavaScript: true,
-      forceWebView: true,
-      forceSafariVC: false,
     )) throw 'Could not launch $url';
   }
 
@@ -70,5 +82,23 @@ class DownCubit extends Cubit<DownState> {
       scheme: 'tel',
       path: phoneNumber,
     );
+  }
+
+  initialDownPlatform() {
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
+  }
+
+  bool showDownloadButton = true;
+
+  void checkDownLoadButton(var x) async {
+    emit(SuccessChangeState());
+    //print(await x?.currentUrl());
+    if (await x?.currentUrl() == 'https://m.youtube.com/') {
+      showDownloadButton = false;
+    } else {
+      showDownloadButton = true;
+    }
   }
 }
